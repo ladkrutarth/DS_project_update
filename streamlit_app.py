@@ -251,8 +251,9 @@ st.markdown(f"""
     }}
 
     /* High-Contrast Radio/Multiple Choice options */
-    div[data-testid="stRadio"] label p,
-    }
+    div[data-testid="stRadio"] label p {{
+        color: #000000 !important;
+    }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -909,7 +910,7 @@ def main():
         "🧬 Spending DNA",
     ])
 
-    fraud_df = load_fraud_data(FEATURES_PATH, FEATURES_PATH.stat().st_mtime if FEATURES_PATH.exists() else 0)
+    fraud_df = load_fraud_data(settings.FRAUD_SCORES_PATH, settings.FRAUD_SCORES_PATH.stat().st_mtime if settings.FRAUD_SCORES_PATH.exists() else 0)
     cfpb_df  = load_cfpb_data()
 
     with tabs[0]: render_omni_tab()

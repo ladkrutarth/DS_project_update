@@ -66,13 +66,14 @@ class LocalLLM:
             # but we allow it if the user hasn't explicitly set a high threshold
             return True
 
-    def generate(self, prompt: str, max_tokens: int = None, temp: float = None) -> str:
+    def generate(self, prompt: str, max_tokens: int = None, temp: float = None, simulated_fallback: str = None) -> str:
         """Generate response from the local MLX model or a simulation stub."""
         max_tokens = max_tokens or settings.LLM_MAX_TOKENS
         temp = temp if temp is not None else settings.LLM_TEMPERATURE
 
         if not HAS_MLX or self.model is None:
-            return f"[SIMULATED RESPONSE for {self.model_id}]: Based on the security logs, this transaction appears suspicious due to a geographic anomaly."
+            fallback = simulated_fallback or "LLM generation running in simulated mode. Local response synthesis is skipped."
+            return f"[SIMULATED RESPONSE for {self.model_id}]: {fallback}"
 
         # Simple Instruct template for Llama-3
         formatted_prompt = f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
@@ -101,9 +102,9 @@ class LocalLLM:
 
         return response
 
-    async def generate_async(self, prompt: str, max_tokens: int = None, temp: float = None) -> str:
+    async def generate_async(self, prompt: str, max_tokens: int = None, temp: float = None, simulated_fallback: str = None) -> str:
         """Run generation in a separate thread to avoid blocking the event loop."""
-        return await anyio.to_thread.run_sync(self.generate, prompt, max_tokens, temp)
+        return await anyio.to_thread.run_sync(self.generate, prompt, max_tokens, temp, simulated_fallback)
 
 if __name__ == "__main__":
     llm = LocalLLM()

@@ -778,7 +778,7 @@ class FinancialAdvisorAgent:
                 context = "\n".join(str(r) for r in tool_results[:6])
                 prompt = f"User asked: {question}\n\nData:\n{context}\n\nGive a short, professional reply in 2-4 bullet points. Use the numbers from the data."
                 out = self.llm.generate(prompt, max_tokens=280, temp=0.3)
-                if out and out.strip():
+                if out and out.strip() and "[SIMULATED RESPONSE" not in out:
                     return out.strip()
             except Exception as e:
                 from utils.logger import logger
@@ -843,11 +843,12 @@ class FinancialAdvisorAgent:
                     f"**💰 Comprehensive Savings Strategy**\n\n"
                     f"Based on your **{archetype}** spending profile, your average monthly expenditure "
                     f"is **${monthly_avg:,.2f}**. After analyzing every category in your transaction history, "
-                    f"we have identified a realistic savings target of **${monthly_save:,.2f}/month** "
+                f"we have identified a realistic savings target of **${monthly_save:,.2f}/month** "
                     f"(**${annual_save:,.0f}/year**). Below is a detailed, category-by-category breakdown "
                     f"with professional recommendations.\n"
                 )
 
+                # Add the ops
                 # --- High-Impact Categories (top 3) ---
                 high_impact = ops[:3]
                 high_lines = "\n".join(

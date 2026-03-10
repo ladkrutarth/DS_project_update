@@ -1,3 +1,3 @@
-user_id,transaction_date,amount,category,merchant,hour,day_of_week
-user_123,2026-03-01,50.0,grocery_pos,SuperStore,14,2
-user_123,2026-03-02,120.0,entertainment,Cinema,20,3
+FIRST,LAST,CATEGORY,AMT,GENDER,STATE,MERCHANT,HOUR,DAY_OF_WEEK,IS_FRAUD,USER_ID,LOCATION
+Alice,Test,shopping_net,50.0,F,NY,Merchant A,12,1,0,3324,"Sample City, NY"
+Bob,Test,travel,1500.0,M,CA,Merchant B,1,5,1,6078,"Sample City, CA"

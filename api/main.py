@@ -116,6 +116,16 @@ async def lifespan(app: FastAPI):
     print("🔴 Veriscan API shutting down.")
 
 
+# ---------------------------------------------------------------------------
+# FastAPI App
+# ---------------------------------------------------------------------------
+app = FastAPI(
+    title="Veriscan — Fraud Intelligence API",
+    description="Microservices backend for ML fraud prediction, agentic investigation, and RAG-powered knowledge retrieval.",
+    version="2.0.0",
+    lifespan=lifespan,
+)
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     """
@@ -132,17 +142,6 @@ async def global_exception_handler(request: Request, exc: Exception):
             "type": type(exc).__name__
         }
     )
-
-
-# ---------------------------------------------------------------------------
-# FastAPI App
-# ---------------------------------------------------------------------------
-app = FastAPI(
-    title="Veriscan — Fraud Intelligence API",
-    description="Microservices backend for ML fraud prediction, agentic investigation, and RAG-powered knowledge retrieval.",
-    version="2.0.0",
-    lifespan=lifespan,
-)
 
 # Enable CORS for Streamlit and other frontends
 app.add_middleware(
@@ -322,7 +321,8 @@ async def security_chat(req: SecurityChatRequest):
         )
         prompt = f"<|im_start|>system\n{system_prompt}<|im_end|>\n<|im_start|>user\n{req.message}<|im_end|>\n<|im_start|>assistant\n"
         # Slightly lower max_tokens for faster replies; model size controlled by VERISCAN_FAST_MODE/VERISCAN_LLM_MODEL.
-        reply = await _agent.llm.generate_async(prompt, max_tokens=140, temp=0.2)
+        fallback = "Based on the security logs, this transaction appears suspicious due to a geographic anomaly."
+        reply = await _agent.llm.generate_async(prompt, max_tokens=140, temp=0.2, simulated_fallback=fallback)
         return SecurityChatResponse(reply=reply, actions=[], status="completed", session_id=req.session_id)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

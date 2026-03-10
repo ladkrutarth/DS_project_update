@@ -6,19 +6,34 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/app
+      - ./dataset:/app/dataset
+      - ./models:/app/models
+      - ./logs:/app/logs
+      - ./artifacts:/app/artifacts
+      - ./scripts:/app/scripts
+      - ./api:/app/api
+      - ./agents:/app/agents
+      - ./utils:/app/utils
     environment:
       - PYTHONUNBUFFERED=1
-    command: python api/main.py
+      - VERISCAN_DEVICE=cpu
+      - SKIP_SETUP=false
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
 
   frontend:
     build: .
     ports:
       - "8502:8502"
     volumes:
-      - .:/app
+      - ./dataset:/app/dataset
+      - ./models:/app/models
+      - ./scripts:/app/scripts
+      - ./agents:/app/agents
+      - ./utils:/app/utils
+      - ./streamlit_app.py:/app/streamlit_app.py
     environment:
       - VERISCAN_API_URL=http://backend:8000
+      - SKIP_SETUP=true
     command: streamlit run streamlit_app.py --server.port 8502
     depends_on:
       - backend

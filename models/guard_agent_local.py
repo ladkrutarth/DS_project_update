@@ -62,9 +62,9 @@ class LocalGuardAgent:
             Question: {question}
 
             Answer (keep it concise and to the point):"""
-            
             # Lower max_tokens for faster responses; rely on VERISCAN_FAST_MODE for smaller model if desired.
-            answer = self.llm.generate(prompt, max_tokens=140)
+            fallback_text = "Based on the security logs, this transaction appears suspicious due to a geographic anomaly."
+            answer = self.llm.generate(prompt, max_tokens=140, simulated_fallback=fallback_text)
             
             return {
                 "answer": answer,

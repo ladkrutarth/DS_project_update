@@ -1,0 +1,13 @@
+.git
+.venv
+__pycache__
+*.pyc
+.chroma_db_local
+logs/*.log
+api.log
+artifacts/experiments
+dataset/csv_data/*.csv
+!dataset/csv_data/cfpb_credit_card.csv
+models/*.joblib
+node_modules
+.DS_Store

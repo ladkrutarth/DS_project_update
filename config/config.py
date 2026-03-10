@@ -50,9 +50,16 @@ class VeriscanSettings(BaseSettings):
     CFPB_DATA_PATH: Path = DATA_DIR / "cfpb_credit_card.csv"
     FRAUD_TRAIN_PATH: Path = DATA_DIR / "processed_fraud_train.csv"
     FRAUD_SCORES_PATH: Path = DATA_DIR / "fraud_scores_output.csv"
+    AUTH_PROFILES_PATH: Path = DATA_DIR / "auth_profiles_output.csv"
     ADVISOR_DATA_PATH: Path = DATA_DIR / "financial_advisor_dataset.csv"
     DNA_DATA_PATH: Path = DATA_DIR / "spending_dna_dataset.csv"
     TRANSACTIONS_DATA_PATH: Path = DATA_DIR / "transactions_3000.csv"
+    TXN_3000_PATH: Path = DATA_DIR / "transactions_3000.csv"
+    
+    # Model Files
+    MODEL_RF_PATH: Path = MODELS_DIR / "fraud_model_rf.joblib"
+    ENCODERS_PATH: Path = MODELS_DIR / "encoders.joblib"
+    
     RAG_DB_PATH: Path = PROJECT_ROOT / ".chroma_db_local"
 
     # --- Aesthetics (Streamlit) ---
