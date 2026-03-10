@@ -1,0 +1,2 @@
+user_id,hour_of_day,amount,category_encoded
+user_123,14.5,65.0,3

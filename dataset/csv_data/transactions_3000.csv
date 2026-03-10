@@ -1,0 +1,3 @@
+user_id,transaction_date,amount,category,merchant,hour,day_of_week
+user_123,2026-03-01,50.0,grocery_pos,SuperStore,14,2
+user_123,2026-03-02,120.0,entertainment,Cinema,20,3

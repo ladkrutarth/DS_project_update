@@ -1,0 +1,3 @@
+first,last,category,amt,gender,state,merchant,hour,day_of_week,is_fraud
+Alice,Test,shopping_net,50.0,F,NY,Merchant A,12,1,0
+Bob,Test,travel,1500.0,M,CA,Merchant B,1,5,1
